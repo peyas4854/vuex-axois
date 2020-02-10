@@ -51,22 +51,18 @@ Vue.use(VueAxios, axios)
          axios
          .delete(`https://jsonplaceholder.typicode.com/todos/${index+1}`)
         //await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
-        
         commit('removeTodo', index)
         //console.log("async action",index);
       },
-
       async addtodo({ commit },newtodo){
         const coins = await axios.post('https://jsonplaceholder.typicode.com/users',{name:newtodo });
         console.log("paici",coins.data);
         //console.log("action",newtodo)
         commit('ADD_TODO',newtodo);
-
       },
       async  filter({commit},value){
         console.log("action event",value);
         // //get the option value
-      
         axios
           .get(`https://jsonplaceholder.typicode.com/todos?_limit=${value}`)
           .then(r => r.data)
@@ -74,19 +70,13 @@ Vue.use(VueAxios, axios)
           
           commit('SET_COINS', coins)
           })
-
-
       },
       async updateTodo({commit},updatetodo){
-        console.log("paici",updatetodo);
-        console.log("commit",commit);
-      //   const coins = await axios.put('https://jsonplaceholder.typicode.com/todos/${updatetodo.id}`,
-      //   updatetodo
-      //  );
-      //     console.log(coins.data);
-      //     commit('UPDATE_TODO', coins)
+        //console.log("new",updatetodo);
+        const coins = await axios.put(`https://jsonplaceholder.typicode.com/todos/${updatetodo.id}`,updatetodo);
+        commit('UPDATE_TODO', coins.data)
 
-
+        
 
       }
     
@@ -104,12 +94,11 @@ Vue.use(VueAxios, axios)
         //state.coins.filter(coins => coins.index !== index)
         //state.coins.splice(index,1);//delete index item array 
         state.coins = state.coins.slice(0, index).concat(state.coins.slice(index+1, state.coins.length)) // delete index item array 
-        console.log(state.coins);
+      
       //removeTodo:(state,index)=>state.coins = state.coins.filter(coins=>coins != index)
       },
       ADD_TODO(state,newtodo){
-        console.log("ADD TODO");
-        console.log("new TODO",newtodo);
+       
        const val = 
          {
            "name":newtodo,
@@ -120,8 +109,11 @@ Vue.use(VueAxios, axios)
 
       },
       UPDATE_TODO(state,updatetodo){
-        console.log("state",state);
-        console.log("updatetodo",updatetodo);
+        console.log("id",updatetodo.id);
+       
+        const index = state.coins.findIndex(coins => coins.id === updatetodo.id)
+        console.log("index",index);
+        state.coins.splice(index,1,updatetodo);
 
       }
     

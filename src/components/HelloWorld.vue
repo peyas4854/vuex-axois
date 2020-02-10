@@ -59,17 +59,16 @@ export default {
     ]),
     
     remove(index){
-      console.log("click",index);
+    
       this.deletetodoAction(index);
 
     },
     submit(){
-      console.log("new",this.newTodo);
-      //this.ADD_TODO(this.newTodo);
       this.addtodo(this.newTodo);
       this.newTodo ='';
     },
     dbClick(todo){
+      console.log("old",todo);
       
       const updatedata={
         id:todo.id,
