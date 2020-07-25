@@ -1,132 +1,113 @@
 <template>
-  <div >
-    <h1 class="text-center"> Todo  </h1>
+  <div>
+    <h1 class="text-center">Todo</h1>
 
     <div class="from-box">
-      <input type="text" placeholder="Enter title" v-model="newTodo">
-    <button class="add" @click="submit">ADD Todo </button>
+      <input type="text" placeholder="Enter title" v-model="newTodo" />
+      <button class="add" @click="submit">ADD Todo</button>
     </div>
 
-    <Appfilter/>
+    <!-- dom -->
 
+    <button @click="add()">Add 1 to counter</button>
 
-     <div  v-for="(todo,index) in coins" @dblclick="dbClick(todo)"
-     
-     :key="todo.in">
-        <div class="todo"
-        :class="{'is-completed':todo.completed}"
-        >
+    <Appfilter />
+
+    <div v-for="(todo,index) in coins" @dblclick="dbClick(todo)" :key="todo.in">
+      <div class="todo" :class="{'is-completed':todo.completed}">
         {{ todo.title }}
-            <button class="delete" @click.prevent="deletetodoAction(index)"> Delete </button>
-        </div>
+        <button class="delete" @click.prevent="deletetodoAction(index)">Delete</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Appfilter from './Appfilter.vue';
-import {mapState,mapActions,mapMutations} from 'vuex';
+import Appfilter from "./Appfilter.vue";
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
-  components:{
+  components: {
     Appfilter
   },
-  data(){
-    return{
-      newTodo:'',
-     
-    }
+  data() {
+    return {
+      newTodo: "",
+      counter: ""
+    };
   },
-   created () {
+  created() {
     // this.$store.dispatch('loadCoins')
     this.loadCoins();
   },
-  computed:{
-     ...mapState([
-      'coins',
-      'user',
-    ]),
-   
+  computed: {
+    ...mapState(["coins", "user"])
   },
-  methods:{
-    ...mapActions([
-      'loadCoins',
-      'deletetodoAction',
-      'addtodo',
-      'updateTodo'
-    ]),
-     ...mapMutations([
-      'ADD_TODO'
-    ]),
-    
-    remove(index){
-    
+  methods: {
+    ...mapActions(["loadCoins", "deletetodoAction", "addtodo", "updateTodo"]),
+    ...mapMutations(["ADD_TODO"]),
+
+    remove(index) {
       this.deletetodoAction(index);
-
     },
-    submit(){
+    submit() {
       this.addtodo(this.newTodo);
-      this.newTodo ='';
+      this.newTodo = "";
     },
-    dbClick(todo){
-      console.log("old",todo);
-      
-      const updatedata={
-        id:todo.id,
-        title:todo.title,
-        completed:!todo.completed
-      }
-      this.updateTodo (updatedata)
+    dbClick(todo) {
+      console.log("old", todo);
+
+      const updatedata = {
+        id: todo.id,
+        title: todo.title,
+        completed: !todo.completed
+      };
+      this.updateTodo(updatedata);
+    },
+    add() {
+      console.log("sdf");
+      this.counter++;
     }
-
-
   }
-}
+};
 </script>
 
 <style  scoped>
-
-
-.todo{
-  padding:15px 15px;
-  background-color :rgb(192, 180, 218);
-  margin:10px 10px;
+.todo {
+  padding: 15px 15px;
+  background-color: rgb(192, 180, 218);
+  margin: 10px 10px;
   position: relative;
-  
 }
-.text-center{
+.text-center {
   text-align: center;
 }
-.delete{
-    position: absolute;
-    right: 1em;
-    
+.delete {
+  position: absolute;
+  right: 1em;
 }
-.add{
+.add {
   text-align: center;
   padding: 10px 10px;
   background-color: green;
-  color:white;
+  color: white;
   margin: 10px;
- 
 }
-.from-box{
+.from-box {
   padding: 10px 10px;
-
 }
 input {
-    background-color: rgb(224, 228, 235);
-    width: 80%;
-    height: 30px;
-    -webkit-box-shadow: rgb(24, 16, 16) 2px 3px 6px 2px;
-    box-shadow: rgb(24, 16, 16) 2px 3px 6px 2px;
-    font-family: cursive;
-    font-size: 17px;
+  background-color: rgb(224, 228, 235);
+  width: 80%;
+  height: 30px;
+  -webkit-box-shadow: rgb(24, 16, 16) 2px 3px 6px 2px;
+  box-shadow: rgb(24, 16, 16) 2px 3px 6px 2px;
+  font-family: cursive;
+  font-size: 17px;
 }
-.is-completed{
+.is-completed {
   background-color: #0dbf8a;
   color: white;
 }
-
 </style>
 
 
